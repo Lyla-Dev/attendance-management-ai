@@ -1,121 +1,53 @@
-# Technology Trends AI Chatbot
+# 언제와 챗봇 🧑‍🏫⏰
 
-## Original Project Source
-This project is based on the [tech-trends-chatbot](../tech-trends-chatbot) repository. The original project was created to demonstrate RAG (Retrieval-Augmented Generation) technology with a focus on technology trends analysis.
+출결 관련 단순 반복 업무를 효율적으로!
+초등학교 선생님들의 행정 부담을 덜기 위해 만들어진 출결 문의 특화 챗봇입니다.
 
-**Original Project Information:**
-- Source: tech-trends-chatbot
-- License: MIT License (see LICENSE file)
-- Purpose: Technology trends analysis using RAG with GPT-4
+## 📌 프로젝트 소개
+
+언제와 챗봇은 초등학교 현장에서 교사들에게 자주 들어오는 출결 관련 문의를 자동화하기 위해 만들어졌습니다.
+복잡한 출결 규정을 이해하기 어려운 학부모들의 질문에, 교사 대신 신속하고 정확한 답변을 제공합니다.
+
+이 애플리케이션은 Retrieval-Augmented Generation (RAG) 기술과 OpenAI GPT-4o 모델을 사용하며, 구조와 데이터 소스를 손쉽게 커스터마이징할 수 있도록 설계되었습니다.
+
+## 💡 주요 기능
+
+🔍 출결 규정 문서 기반 자연어 Q&A
+💬 학부모의 다양한 질문 표현에 대한 대응
+⚡ Redis 기반 빠른 질의응답 처리
+🧩 파일 교체만으로 다양한 문서 적용 가능
+
+## 🛠 기술 스택
+
+| 영역        | 기술                                 |
+| ----------- | ------------------------------------ |
+| 백엔드      | Python 3.11+, FastAPI, Poetry        |
+| 프론트엔드  | React, Vite.js                       |
+| AI 모델     | OpenAI GPT-4o                        |
+| 벡터 DB     | Redis Stack (RediSearch + RedisJSON) |
+| 문서 임베딩 | OpenAI Embedding API                 |
+| 설정 관리   | Pydantic Settings                    |
 
 ---
 
-This repository contains a **Retrieval-Augmented Generation (RAG) full-stack chatbot application** built with **Python, FastAPI, Redis, React and OpenAI's GPT-4o.** The chatbot specializes in answering questions about new technology trends, powered by the latest reports from leading institutions such as the World Bank, World Economic Forum, McKinsey, Deloitte, and OECD.
+## 🧩 문제 인식
 
-The application is designed to be easily customizable, allowing you to **integrate your own data sources and adapt it to different use cases.**
+⏱ 반복되는 출결 관련 문의
+📄 규정 이해가 어려운 학부모
+😓 교사의 반복적인 행정 업무 부담
 
-You can access a [live demo of the RAG Chatbot application here](https://tech-trends-chatbot.codeawake.com).
+## 🚀 향후 계획
 
-For a detailed walkthrough of the code and the technologies used, check out this blog post: [Building an AI Chatbot Powered by Your Data](https://codeawake.com/blog/ai-chatbot).
+출결 외의 학교생활 관련 규정 문서 확대 적용
+9시 이후 학생 출결 관리 시스템
+챗봇 대시보드 제공 (응답 로그, 피드백 수집 등)
 
-## Structure
+## 🙋‍♀️ 팀 소개
 
-The repository is organized into two main folders:
+팀 이름: 21 (박수진, 오예린, 이규호, 장은정, 최민경)
+사용 기술: OpenAI, RAG, Redis, FastAPI, React
 
-- `backend/`: Contains the Python FastAPI backend code and a local Python version for testing.
-- `frontend/`: Contains the React frontend code. It uses Vite.js as the build tool and bundler.
+## 📄 라이선스
 
-## Installation
-
-### Prerequisites ✅
-
-- Python 3.11+.
-- Node.js 18+.
-- Poetry (Python package manager).
-- Redis Stack Server. Follow the [installation and running instructions](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/). The application requires the RedisJSON and RediSearch modules, which Redis Stack Server includes. Alternatively, you can install Redis and add the required modules yourself.
-
-### Backend
-
-1. Navigate to the backend folder and install the Python dependencies using Poetry:
-
-    ```bash
-    cd backend
-    poetry install
-    ```
-
-2. Create a `.env` file in the backend folder copying the `.env.example` file provided and set the required environment variable:
-    - `OPENAI_API_KEY`: Your OpenAI API key.
-  
-3. The application uses Pydantic Settings for configuration management. You can adjust the configuration defaults in `backend/app/config.py`, or set the configuration variables directly using environment variables.
-
-### Frontend
-
-1. Navigate to the frontend folder and install the JavaScript dependencies:
-
-    ```bash
-    cd frontend
-    npm install
-    ```
-
-2. Create a `.env.development` file in the frontend folder copying the `.env.example` file provided that includes the required environment variable:
-    - `VITE_API_URL`: The URL to connect to the backend API.
-
-## Running the Application
-
-### Loading Source Documents
-
-Before running the full-stack application, you need to load the source documents and build the knowledge base. Make sure Redis Stack Server is running before executing the loading script:
-
-```bash
-cd backend
-poetry run load
-```
-
-This script processes the documents in the `backend/data/docs` directory, creates vector embeddings, and stores them in the Redis database.
-
-You can **customize this chatbot with your own data sources:**
-1. Replace the existing PDF files in the `backend/data/docs` with your own data sources.
-2. If needed, adjust the `process_docs` function in `backend/app/loader.py` to handle different file formats.
-3. Adjust the assistant prompts in `backend/app/assistants/prompts.py` for your specific use case.
-4. Run the `poetry run load` script as shown above.
-
-### Full-Stack Application
-
-To run the full-stack chatbot application:
-
-1. Ensure Redis Stack Server is running.
-   
-2. Activate the virtual environment for the backend and start the backend server:
-
-    ```bash
-    cd backend
-    poetry shell
-    fastapi dev app/main.py
-    ```
-
-3. In a separate terminal, start the frontend server:
-
-    ```bash
-    cd frontend
-    npm run dev
-    ```
-
-4. Open your web browser and visit `http://localhost:3000` to access the application.
-
-### Local Application
-
-You can run the local Python application for testing in your console using the provided Poetry script:
-
-```bash
-cd backend
-poetry run local
-```
-
-### Exporting Chats
-
-To export all conversation chats to a JSON file in the `backend/data` directory:
-
-```bash
-cd backend
-poetry run export
-```
+MIT License
+본 프로젝트는 Technology Trends AI Chatbot의 구조를 참고하여 제작되었습니다.
