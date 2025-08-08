@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { useImmer } from 'use-immer';
-import api from '@/api';
-import { parseSSEStream } from '@/utils';
-import ChatMessages from '@/components/ChatMessages';
-import ChatInput from '@/components/ChatInput';
+import { useState } from "react";
+import { useImmer } from "use-immer";
+import api from "@/api";
+import { parseSSEStream } from "@/utils";
+import ChatMessages from "@/components/ChatMessages";
+import ChatInput from "@/components/ChatInput";
 
 function Chatbot() {
   const [chatId, setChatId] = useState(null);
   const [messages, setMessages] = useImmer([]);
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
 
   const isLoading = messages.length && messages[messages.length - 1].loading;
 
@@ -16,11 +16,12 @@ function Chatbot() {
     const trimmedMessage = newMessage.trim();
     if (!trimmedMessage || isLoading) return;
 
-    setMessages(draft => [...draft,
-      { role: 'user', content: trimmedMessage },
-      { role: 'assistant', content: '', sources: [], loading: true }
+    setMessages((draft) => [
+      ...draft,
+      { role: "user", content: trimmedMessage },
+      { role: "assistant", content: "", sources: [], loading: true },
     ]);
-    setNewMessage('');
+    setNewMessage("");
 
     let chatIdOrNew = chatId;
     try {
@@ -32,16 +33,16 @@ function Chatbot() {
 
       const stream = await api.sendChatMessage(chatIdOrNew, trimmedMessage);
       for await (const textChunk of parseSSEStream(stream)) {
-        setMessages(draft => {
+        setMessages((draft) => {
           draft[draft.length - 1].content += textChunk;
         });
       }
-      setMessages(draft => {
+      setMessages((draft) => {
         draft[draft.length - 1].loading = false;
       });
     } catch (err) {
       console.log(err);
-      setMessages(draft => {
+      setMessages((draft) => {
         draft[draft.length - 1].loading = false;
         draft[draft.length - 1].error = true;
       });
@@ -49,18 +50,17 @@ function Chatbot() {
   }
 
   return (
-    <div className='relative grow flex flex-col gap-6 pt-6'>
+    <div className="relative grow flex flex-col gap-6 pt-6">
       {messages.length === 0 && (
-        <div className='mt-3 font-urbanist text-primary-blue text-xl font-light space-y-2'>
-          <p>👋 안녕하세요!</p>
-          <p>저는 학교 출결 규정에 대한 상담을 도와드리는 AI 챗봇입니다.</p>
-          <p>출결 관련 궁금한 사항(결석 허용 일수, 필요 서류, 절차 등)을 편하게 물어보세요.</p>
+        <div className="mt-3 font-urbanist text-primary-blue text-xl font-light space-y-2">
+          <p></p>
         </div>
       )}
-      <ChatMessages
-        messages={messages}
-        isLoading={isLoading}
-      />
+      <div className="bg-gray-100 p-4 rounded-full text-center text-sm text-gray-500 mx-auto w-full max-w-sm">
+        <p>챗봇은 실수를 할 수 있습니다.</p>
+        <p>중요한 정보는 학교에 문의 부탁드립니다.</p>
+      </div>
+      <ChatMessages messages={messages} isLoading={isLoading} />
       <ChatInput
         newMessage={newMessage}
         isLoading={isLoading}
