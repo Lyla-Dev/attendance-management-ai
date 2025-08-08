@@ -52,9 +52,9 @@ function Chatbot() {
     <div className='relative grow flex flex-col gap-6 pt-6'>
       {messages.length === 0 && (
         <div className='mt-3 font-urbanist text-primary-blue text-xl font-light space-y-2'>
-          <p>👋 Welcome!</p>
-          <p>I am powered by the latest technology reports from leading institutions like the World Bank, the World Economic Forum, McKinsey, Deloitte and the OECD.</p>
-          <p>Ask me anything about the latest technology trends.</p>
+          <p>👋 안녕하세요!</p>
+          <p>저는 학교 출결 규정에 대한 상담을 도와드리는 AI 챗봇입니다.</p>
+          <p>출결 관련 궁금한 사항(결석 허용 일수, 필요 서류, 절차 등)을 편하게 물어보세요.</p>
         </div>
       )}
       <ChatMessages
