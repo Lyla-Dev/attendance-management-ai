@@ -17,4 +17,7 @@ RUN pip install --no-cache-dir --upgrade -r /home/requirements.txt
 COPY ./app /home/app
 COPY ./data/docs /home/data/docs
 
-CMD ["fastapi", "run", "app/main.py", "--port", "8000"]
+ENV PORT=8000
+EXPOSE $PORT
+
+CMD uvicorn app.main:app --host 0.0.0.0 --port $PORT
