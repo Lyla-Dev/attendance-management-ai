@@ -8,7 +8,8 @@ export default defineConfig({
     port: 3000,
   },
   preview: {
-    port: 3000,
+    port: process.env.PORT || 3000,
+    host: true,
   },
   resolve: {
     alias: {
